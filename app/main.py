@@ -26,6 +26,7 @@ def healthz():
 
 @app.post("/checkout")
 def checkout():
+    request_id = request.headers.get("X-Request-Id", str(uuid.uuid4()))
     body = request.get_json()
     cart = body["cart"]
     if not cart["items"]:
@@ -39,7 +40,7 @@ def checkout():
     try:
         charge_id = payments.charge(body["customer_id"], total, idempotency_key=str(uuid.uuid4()))
     except PaymentError:
-        log.exception("checkout failed for customer %s", body["customer_id"])
+        log.exception("checkout failed request_id=%s customer=%s", request_id, body["customer_id"])
         return jsonify(error="payment failed"), 502
 
     return jsonify(order_id=str(uuid.uuid4()), charge_id=charge_id)
