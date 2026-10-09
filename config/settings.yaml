@@ -1,4 +1,4 @@
 payment_gateway_url: https://payments.internal.example.com
-payment_timeout_ms: 5000
-payment_max_retries: 3
+payment_timeout_ms: 800
+payment_max_retries: 0
 inventory_url: https://inventory.internal.example.com
