@@ -31,6 +31,8 @@ def checkout():
     cart = body["cart"]
     if not cart["items"]:
         return jsonify(error="empty cart"), 400
+    if any(item["quantity"] <= 0 for item in cart["items"]):
+        return jsonify(error="invalid quantity"), 400
 
     reserve = requests.post(f"{settings['inventory_url']}/v1/reservations", json=cart, timeout=2)
     if reserve.status_code != 200:
