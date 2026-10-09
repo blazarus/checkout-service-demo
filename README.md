@@ -21,3 +21,10 @@ same name (upper-cased).
 | `payment_timeout_ms` | Per-request timeout for payment gateway calls |
 | `payment_max_retries` | Retries on payment gateway timeouts / 5xx |
 | `inventory_url` | Base URL of the inventory service |
+
+## On-call runbook
+
+- **Checkout 5xx spike:** check `checkout failed` log lines for the failing dependency, then the
+  payment gateway and inventory status pages.
+- **Inventory 409s:** usually a stuck reservation sweeper on the inventory side; page the
+  inventory team.
